@@ -1,0 +1,8 @@
+# django
+Django==5.2.6
+
+# Postgres adapter
+psycopg2==2.9.10
+
+# REST framework
+djangorestframework==3.16.1

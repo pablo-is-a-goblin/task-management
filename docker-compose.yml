@@ -1,0 +1,46 @@
+services:
+  django:
+    restart: always
+    build:
+      context: ./django_backend
+      dockerfile: Dockerfile
+    container_name: django_backend
+    volumes:
+      - ./django_backend:/django/
+    expose:
+      - ${POSTGRES_PORT}
+    env_file:
+      - .env
+    ports:
+      - ${ENTRY_PORT}:${BACKEND_PORT}
+    depends_on:
+      database:
+        condition: service_healthy
+    networks:
+      - backend-network
+
+  database:
+    restart: always
+    image: postgres:15
+    container_name: databse
+    volumes:
+      - task_data:/var/lib/postgresql/data
+    expose:
+      - ${POSTGRES_PORT}
+    env_file:
+      - .env
+    networks:
+      - backend-network
+    healthcheck:
+      test: ["CMD", "pg_isready", "-d", "${POSTGRES_DB}"]
+      retries: 20
+      timeout: 3s
+      interval: 2s
+
+volumes:
+  task_data:
+    name: task_data
+
+networks:
+  backend-network:
+    driver: bridge
