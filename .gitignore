@@ -1,2 +1,4 @@
 # enviroment file
 .env
+
+django_backend/apps/tasks/migrations

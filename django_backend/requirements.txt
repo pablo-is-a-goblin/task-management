@@ -2,7 +2,7 @@
 Django==5.2.6
 
 # Postgres adapter
-psycopg2==2.9.10
+psycopg==3.1.8
 
 # REST framework
 djangorestframework==3.16.1
