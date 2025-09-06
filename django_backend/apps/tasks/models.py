@@ -14,7 +14,7 @@ PRIORITY_CHOICES = [
 ]
 
 class User(AbstractUser):
-    pass
+    USERNAME_FIELD = 'username'
 
 class Tag(models.Model):
     name = models.CharField(max_length=100)
