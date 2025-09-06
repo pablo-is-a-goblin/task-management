@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Index</title>
+</head>
+<body>
+    Welcome to Task Mangement
+    <div class="container">
+        Log in
+        <form method="post" action="{% url 'auth:rfu:login' %}">
+            {% csrf_token %}
+            <label for="username">Username:</label><br>
+            <input type="text" id="username" name="username"><br>
+            <label for="password">Password:</label><br>
+            <input type="password" id="password" name="password"><br><br>
+            <input type="submit" value="Log In">
+        </form>
+    </div>
+    <div class="container">
+        Register
+        <form method="post" action="{% url 'auth:register' %}">
+            {% csrf_token %}
+            <label for="username">Username:</label><br>
+            <input type="text" id="username" name="username"><br>
+            <label for="password">Password:</label><br>
+            <input type="password" id="password" name="password"><br><br>
+            <input type="submit" value="Register">
+        </form>
+    </div>
+</body>
+</html>

@@ -1,8 +1,9 @@
 from django.urls import path, include
 from . import views
 
+app_name="auth"
 urlpatterns = [
-    path('', include('rest_framework.urls')),
+    path('', include('rest_framework.urls', namespace="rfu")),
     # path('login', views.LoginView().as_view(), name="login"),
     # path('logout', views.LogoutView().as_view(), name="logout"),
     path('register/', views.UserRegisterAPIView().as_view(), name="register")
