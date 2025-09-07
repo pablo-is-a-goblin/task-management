@@ -1,0 +1,21 @@
+{% extends "master.html" %}
+
+{% block title %}
+    {{ profile.username }}'s Profile
+{% endblock %}
+
+{% load rest_framework %}
+
+{% block content %}
+
+<h3>
+    Profile number {{profile.id}}
+</h3>
+
+<form action="{% url 'users:user' pk=profile.id %}" method="POST">
+    {% csrf_token %}
+    {% render_form serializer %}
+    <input type="submit" value="Save">
+</form>
+{% endblock %}
+

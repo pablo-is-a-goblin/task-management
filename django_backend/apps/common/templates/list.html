@@ -1,0 +1,15 @@
+{% extends "master.html" %}
+
+{% block title %}
+    {{ type }} List
+{% endblock %}
+
+{% load rest_framework %}
+
+{% block content %}
+<ul>
+    {% for item in queryset %}
+    <li><a href="{% url unit_url pk=item.id %}">{{ item }}</a></li>
+    {% endfor %}
+</ul>
+{% endblock %}

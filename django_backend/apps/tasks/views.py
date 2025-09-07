@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from rest_framework.views import APIView
-from rest_framework.renderers import TemplateHTMLRenderer
+from rest_framework.renderers import TemplateHTMLRenderer, JSONRenderer
 from rest_framework.response import Response
 from . import serializers
 from rest_framework.exceptions import ValidationError
@@ -15,11 +15,25 @@ from rest_framework.permissions import AllowAny
 class  ProfilesViewSet(viewsets.ModelViewSet):
 	queryset = myModels.User.objects.all()
 	serializer_class = serializers.UserSerializer
+	renderer_classes = [TemplateHTMLRenderer, JSONRenderer]
+	template_name='profile.html'
 
 	def me(self, request, *args, **kwargs):
-		self.object = get_object_or_404(myModels.User, pk=request.user.id)
-		serializer = self.get_serializer(self.object)
-		return Response(serializer.data)
+		return self.retrieve(request, request.user.id)
+	
+	def retrieve(self, request, pk):
+		self.object = get_object_or_404(myModels.User, pk=pk)
+		return Response({'serializer': self.get_serializer(self.object), 'profile': self.object})
+	
+	def list(self, request):
+		return Response({
+			'queryset' : self.queryset, 
+			'type': 'Profiles',
+			'unit_url' : 'users:user'}, template_name='list.html')
+	
+	def update(self, request, pk):
+		super().update(request, pk)
+		return self.retrieve(request, pk)
 
 class	UserRegisterAPIView(APIView):
 	permission_classes = [AllowAny]
