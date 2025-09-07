@@ -15,7 +15,7 @@ I setted the basic Docker infrastructure for Django and postgreSQL, checking the
 I spent the second day reading documentaion focused on Celery and its integration with Django, as well as using Django templates with DRF as I am used to working with a JavaScript frontend.
 
 ### Day 3
-I have implemented all the API endpoints related to user management and authetification, as well as a simple frontend with Django templates to give clients an intuitive way to interact with the API. I also wanted to implement the rest of the API, although I had problem with the authentification system which cosumed a great part of today's worktime (more about it on the 'Technical challenges faced' section)
+I have implemented all the API endpoints related to user management and authetification, as well as a simple frontend with Django templates to give clients an intuitive way to interact with the API. I also wanted to implement the rest of the API, although I had problem with the authentification system which cosumed a great part of today's worktime (more about it on the 'Technical challenges faced' section).
 
 ### Day 4
 I started programming a universal template for rendering all the lists and detail views. Furthermore, I implemented all the endpoints for the tasks and tags API and I tested they worked well. There are still some minors bugs that need fixing.
