@@ -2,6 +2,27 @@ from rest_framework import serializers
 from . import models as myModels
 from rest_framework.exceptions import ValidationError
 
+class TagSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = myModels.Tag
+        fields = ['id', 'name', 'description']
+
+class TaskSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = myModels.Task
+        fields = ['id', 
+                  'title', 
+                  'description',
+                  'status',
+                  'priority',
+                  'estimated_hours',
+                  'actual_hours',
+                  'due_date',
+                  'is_archived',
+                  'created_by',
+                  ]
+        extra_kwargs = {'created_by': {'default': serializers.CurrentUserDefault()}}
+
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = myModels.User

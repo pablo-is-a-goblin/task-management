@@ -1,5 +1,5 @@
 from django.urls import path, include
-from . import views
+from ..users import views
 from rest_framework import permissions
 from rest_framework import authentication
 

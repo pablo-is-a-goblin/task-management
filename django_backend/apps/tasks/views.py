@@ -1,55 +1,75 @@
-from django.shortcuts import render, redirect
-from rest_framework.views import APIView
 from rest_framework.renderers import TemplateHTMLRenderer, JSONRenderer
 from rest_framework.response import Response
 from . import serializers
-from rest_framework.exceptions import ValidationError
-from rest_framework import status
 from rest_framework import viewsets
 from . import models as myModels
 from django.shortcuts import get_object_or_404
-from django.contrib.auth import authenticate, login, logout
-from rest_framework.permissions import AllowAny
 
 # Create your views here.
-class  ProfilesViewSet(viewsets.ModelViewSet):
-	queryset = myModels.User.objects.all()
-	serializer_class = serializers.UserSerializer
+class  TasksViewSet(viewsets.ModelViewSet):
+	queryset = myModels.Task.objects.all()
+	serializer_class = serializers.TaskSerializer
 	renderer_classes = [TemplateHTMLRenderer, JSONRenderer]
-	template_name='profile.html'
+	template_name='unit.html'
+	type_name = 'Tasks'
+	unit_url = 'tasks:unit'
+	list_url = 'tasks:list'
 
-	def me(self, request, *args, **kwargs):
-		return self.retrieve(request, request.user.id)
-	
+	def create(self, request):
+		super().create(request)
+		self.queryset = myModels.Task.objects.all()
+		return self.list(request)
+
 	def retrieve(self, request, pk):
-		self.object = get_object_or_404(myModels.User, pk=pk)
-		return Response({'serializer': self.get_serializer(self.object), 'profile': self.object})
+		self.object = get_object_or_404(myModels.Task, pk=pk)
+		return Response({
+			'serializer': self.get_serializer(self.object), 
+			'unit': self.object,
+			'unit_url' : self.unit_url,
+			})
 	
 	def list(self, request):
 		return Response({
 			'queryset' : self.queryset, 
-			'type': 'Profiles',
-			'unit_url' : 'users:user'}, template_name='list.html')
+			'type': self.type_name,
+			'unit_url' : self.unit_url,
+			'list_url' : self.list_url,
+			'serializer': self.get_serializer()}, template_name='list.html')
 	
 	def update(self, request, pk):
 		super().update(request, pk)
 		return self.retrieve(request, pk)
 
-class	UserRegisterAPIView(APIView):
-	permission_classes = [AllowAny]
-	
-	def sing_up_succesfull_response(self, serializer):
-		response = {
-			'success': True,
-			'user': serializer.data,
-		}
-		return (response)
+class  TagsViewSet(viewsets.ModelViewSet):
+	queryset = myModels.Tag.objects.all()
+	serializer_class = serializers.TagSerializer
+	renderer_classes = [TemplateHTMLRenderer, JSONRenderer]
+	template_name='unit.html'
+	type_name = 'Tags'
+	unit_url = 'tags:unit'
+	list_url = 'tags:list'
 
-	def post(self, request):
-		serializer = serializers.RegisterSerializer(data=request.data)
-		if (serializer.is_valid()):
-			serializer.save()
-			response = self.sing_up_succesfull_response(serializer)
-			login(request, authenticate(username=request.data["username"], password=request.data["password"]))
-			return redirect("profile")
-		raise ValidationError(serializer.errors, code=status.HTTP_406_NOT_ACCEPTABLE)
+	def create(self, request):
+		super().create(request)
+		self.queryset = myModels.Tag.objects.all()
+		return self.list(request)
+
+	def retrieve(self, request, pk):
+		self.object = get_object_or_404(myModels.Tag, pk=pk)
+		return Response({
+			'serializer': self.get_serializer(self.object), 
+			'unit': self.object,
+			'unit_url' : self.unit_url,
+			})
+	
+	def list(self, request):
+		return Response({
+			'queryset' : self.queryset, 
+			'type': self.type_name,
+			'unit_url' : self.unit_url,
+			'list_url' : self.list_url,
+			'serializer': self.get_serializer()}, template_name='list.html')
+	
+	def update(self, request, pk):
+		super().update(request, pk)
+		return self.retrieve(request, pk)

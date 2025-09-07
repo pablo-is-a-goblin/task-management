@@ -12,7 +12,7 @@
         <h1>Welcome to Task Mangement</h1>
         <div class="container">
         Log in
-        <form method="post" action="{% url 'auth:rfu:login' %}">
+        <form method="post" action="{% url 'rest_framework:login' %}">
             {% csrf_token %}
             <label for="username">Username:</label><br>
             <input type="text" id="username" name="username"><br>

@@ -20,7 +20,10 @@ from django.urls import include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/auth/', include('apps.tasks.authurls', namespace="auth")),
-    path('api/users/', include('apps.tasks.usersurls')),
+    path('api/auth/', include('apps.users.authurls', namespace="auth")),
+    path('api/auth/', include('rest_framework.urls', namespace="rest_framework")),
+    path('api/users/', include('apps.users.usersurls')),
+    path('api/tags/', include('apps.tasks.tagsurls')),
+    path('api/tasks/', include('apps.tasks.tasksurls')),
     path('', include('apps.common.urls'))
 ]

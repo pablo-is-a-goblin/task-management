@@ -1,0 +1,21 @@
+{% extends "master.html" %}
+
+{% block title %}
+    {{ unit }}'s {{type}}
+{% endblock %}
+
+{% load rest_framework %}
+
+{% block content %}
+
+<h3>
+    {{ unit }}'s {{type}}
+</h3>
+
+<form action="{% url unit_url pk=unit.id %}" method="POST">
+    {% csrf_token %}
+    {% render_form serializer %}
+    <input type="submit" value="Save">
+</form>
+{% endblock %}
+

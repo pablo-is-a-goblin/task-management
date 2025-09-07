@@ -10,6 +10,18 @@
 <ul>
     {% for item in queryset %}
     <li><a href="{% url unit_url pk=item.id %}">{{ item }}</a></li>
+    {% empty %}
+    Sorry, there are no {{type}}.
     {% endfor %}
 </ul>
+
+{% if type != "Profiles" %}
+<h3>Create new {{type}}</h3>
+<form action="{% url list_url %}" method="POST">
+    {% csrf_token %}
+    {% render_form serializer %}
+    <input type="submit" value="Save">
+</form>
+{% endif %}
+
 {% endblock %}
