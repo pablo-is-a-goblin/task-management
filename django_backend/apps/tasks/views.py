@@ -30,7 +30,7 @@ class  TasksViewSet(viewsets.ModelViewSet):
 	
 	def list(self, request):
 		return Response({
-			'queryset' : self.queryset, 
+			'queryset' : myModels.Task.objects.all(), 
 			'type': self.type_name,
 			'unit_url' : self.unit_url,
 			'list_url' : self.list_url,
