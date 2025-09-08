@@ -6,3 +6,7 @@ psycopg==3.1.8
 
 # REST framework
 djangorestframework==3.16.1
+
+# celery
+celery==5.5.3
+celery-redbeat==2.3.3

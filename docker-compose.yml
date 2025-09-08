@@ -16,6 +16,17 @@ services:
     depends_on:
       database:
         condition: service_healthy
+      redis:
+        condition: service_started
+    networks:
+      - backend-network
+
+  redis:
+    image: redis
+    command: --port ${REDIS_PORT}
+    container_name: redis
+    expose:
+      -  ${REDIS_PORT}
     networks:
       - backend-network
 
