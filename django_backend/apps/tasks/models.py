@@ -45,7 +45,8 @@ class Task(models.Model):
 
     def __str__(self):
         return self.title
-    
+
+    # Check if a tag is overdue
     def is_overdue(self):
         if timezone.now() > self.due_date:
             return True

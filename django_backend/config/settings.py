@@ -126,7 +126,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Europe/Madrid'
 
 USE_I18N = True
 
@@ -146,6 +146,23 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # Celery
 BROKER_URL = 'redis://redis:' + os.environ.get("REDIS_PORT") + '/0'
 RESULT_BACKEND = BROKER_URL
+
+from celery.schedules import crontab
+
+CELERYBEAT_SCHEDULE = {
+    'daily-summary': {
+        'task': 'apps.tasks.tasks.generate_daily_summary',
+        'schedule': crontab(hour=8),
+    },
+    'hourly-overdue-check': {
+        'task': 'apps.tasks.tasks.check_overdue_tasks',
+        'schedule': crontab(minute=0),
+    },
+    'weekly-cleanup': {
+        'task': 'apps.tasks.tasks.cleanup_archived_tasks',
+        'schedule': crontab(day_of_week=0),
+    },
+}
 
 # Email
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
