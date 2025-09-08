@@ -4,7 +4,7 @@ from django.core.mail import send_mail
 import datetime
  
 def assignment_mail(task):
-    subject = "Assignment to '" + task.tile + "'"
+    subject = "Assignment to '" + task.title + "'"
     message = "The users assigned to this task are: \n"
     for user in task.assigned_to.all():
         message += "- " + user.username + "\n"

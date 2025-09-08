@@ -4,6 +4,7 @@ from . import serializers
 from rest_framework import viewsets
 from . import models as myModels
 from django.shortcuts import get_object_or_404
+from apps.tasks.tasks import send_task_notification
 
 # Create your views here.
 class  TasksViewSet(viewsets.ModelViewSet):
@@ -26,6 +27,8 @@ class  TasksViewSet(viewsets.ModelViewSet):
 			'serializer': self.get_serializer(self.object), 
 			'unit': self.object,
 			'unit_url' : self.unit_url,
+			'list_url' : self.list_url,
+			'type': self.type_name,
 			})
 	
 	def list(self, request):
@@ -39,6 +42,22 @@ class  TasksViewSet(viewsets.ModelViewSet):
 	def update(self, request, pk):
 		super().update(request, pk)
 		return self.retrieve(request, pk)
+	
+	def assign_list(self, request, pk):
+		self.object = get_object_or_404(myModels.Task, pk=pk)
+		return Response({
+			'serializer': serializers.TaskAssignment(self.object), 
+			'unit': self.object,
+			'unit_url' : 'tasks:assign',
+			'type' : "Assignment List"
+			})
+	
+	def update_assign(self, request, pk):
+		self.serializer_class = serializers.TaskAssignment
+		self.update(request, pk)
+		send_task_notification.delay(pk, 'assignment')
+		return self.assign_list(request, pk)
+
 
 class  TagsViewSet(viewsets.ModelViewSet):
 	queryset = myModels.Tag.objects.all()
@@ -59,7 +78,9 @@ class  TagsViewSet(viewsets.ModelViewSet):
 		return Response({
 			'serializer': self.get_serializer(self.object), 
 			'unit': self.object,
+			'list_url' : self.list_url,
 			'unit_url' : self.unit_url,
+			'type' : self.type_name
 			})
 	
 	def list(self, request):

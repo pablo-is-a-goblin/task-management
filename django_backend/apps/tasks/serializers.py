@@ -7,9 +7,15 @@ class TagSerializer(serializers.ModelSerializer):
         model = myModels.Tag
         fields = ['id', 'name', 'description']
 
+class TaskAssignment(serializers.ModelSerializer):
+    assigned_to = serializers.PrimaryKeyRelatedField(many=True, queryset=myModels.User.objects.all())
+    
+    class Meta:
+        model = myModels.Task
+        fields = ['assigned_to']
+
 class TaskSerializer(serializers.ModelSerializer):
     tags = serializers.PrimaryKeyRelatedField(many=True, queryset=myModels.Tag.objects.all())
-    assigned_to = serializers.PrimaryKeyRelatedField(many=True, queryset=myModels.User.objects.all())
     
     class Meta:
         model = myModels.Task
@@ -22,7 +28,6 @@ class TaskSerializer(serializers.ModelSerializer):
                   'estimated_hours',
                   'actual_hours',
                   'due_date',
-                  'assigned_to',
                   'is_archived',
                   'created_by',
                   ]

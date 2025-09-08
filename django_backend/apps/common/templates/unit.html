@@ -12,10 +12,50 @@
     {{ unit }}'s {{type}}
 </h3>
 
+{% if type == "Tasks" %}
+<a href="{% url 'tasks:assign' pk=unit.id %}">See users assigned to this task</a>
+{% endif %}
+
+<button type="button" class="btn btn-danger" onclick="deleteThis()">Delete</button>
+
 <form action="{% url unit_url pk=unit.id %}" method="POST">
     {% csrf_token %}
     {% render_form serializer %}
     <input type="submit" value="Save">
 </form>
+
+<script>
+function getCookie(key) {
+    key = key + "=";
+    let decodedCookie = decodeURIComponent(document.cookie);
+    let ca = decodedCookie.split(';');
+    for(let i = 0; i <ca.length; i++) {
+      let c = ca[i];
+      while (c.charAt(0) == ' ') {
+        c = c.substring(1);
+      }
+      if (c.indexOf(key) == 0) {
+        return c.substring(key.length, c.length);
+      }
+    }
+    return undefined;
+}
+
+function deleteThis(){
+  const csrfToken = getCookie('csrftoken');
+	try {
+		fetch("{% url unit_url pk=unit.id %}", {
+			method: "DELETE",
+      headers: {
+      'X-CSRFToken': csrfToken
+    }
+		}).then((response) => {
+      document.location.href = "{% url list_url %}";
+		});
+	} catch (e) {
+		console.error(e);
+	}
+}
+</script>
 {% endblock %}
 
