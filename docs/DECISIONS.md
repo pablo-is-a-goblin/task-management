@@ -20,6 +20,9 @@ I have implemented all the API endpoints related to user management and authetif
 ### Day 4
 I started programming a universal template for rendering all the lists and detail views. Furthermore, I implemented all the endpoints for the tasks and tags API and I tested they worked well. There are still some minors bugs that need fixing.
 
+### Day 5
+I have implemented all Celery tasks and the beat schedule and I have tested them. I also created an endpoint for deleting models and a separate endpoint for task assignation to alert users only when task assignation has changed.
+
 ## Technical challenges faced
 I had a big problem implementing the authentification system because I forgot to use the 'set_password()' function to set the password of the users so that it is hashed on the database, which meant that the 'login()' function from the Django authetification system did not recognized any password as good.
 
