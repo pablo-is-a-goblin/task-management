@@ -1,5 +1,5 @@
-# Decisions:
-Set decimal places to 2 and max digits to 5
+# Decisions
+
 ## Features completed
 
 - Session authentication
@@ -29,7 +29,11 @@ I had a big problem implementing the authentification system because I forgot to
 ## Trade-offs made
 
 - PUT API routes
+- No task templates
+- Running Celery in the Django container
 
 ## What you would add with more time
 
 ## Justification for Django templates
+
+- DRY
