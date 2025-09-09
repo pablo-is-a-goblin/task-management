@@ -1,10 +1,10 @@
-# task-management
+# Task Management System
 A containerized full-stack task management platform using Django, PostgreSQL and Celery
 
 ## Quick Start
 ```bash
 git clone <repo>
-cd task-management
+cd task-management-system
 cp .env.sample .env
 docker compose up
 ```
