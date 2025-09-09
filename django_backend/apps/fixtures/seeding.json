@@ -1,0 +1,53 @@
+[
+    {
+      "model": "tasks.User",
+      "pk": 1,
+      "fields": {
+        "username": "Alice",
+        "email": "alice@example.com", 
+        "password": "1234"
+      }
+    },
+    {
+        "model": "tasks.User",
+        "pk": 2,
+        "fields": {
+          "username": "Bob",
+          "email": "bob@example.com", 
+          "password": "1234"
+       }
+    },
+    {
+        "model": "tasks.Tag",
+        "pk": 1,
+        "fields": {
+          "name": "Creative",
+            "description": "This tag is used for tasks that require creativity"
+        }
+      },
+      {
+      "model": "tasks.Tag",
+      "pk": 2,
+      "fields": {
+        "name": "Fun",
+          "description": "This tag is used for fun tasks"
+      }
+    },
+    {
+        "model": "tasks.Task",
+        "pk": 1,
+        "fields": {
+        "title": "New name",
+        "description": "This app needs a new name",
+        "status": "W",
+        "priority" : "M",
+        "due_date" : "2023-09-09T20:00:00",
+        "estimated_hours" : 5,
+        "created_by" : 1,
+        "assigned_to" : [2],
+        "tags" : [1],
+        "created_at" : "2023-09-08T20:00:00",
+        "updated_at" : "2023-09-08T20:00:00"
+        }
+      }
+]
