@@ -3,7 +3,7 @@ A containerized full-stack task management platform using Django, PostgreSQL and
 
 ## Quick Start
 ```bash
-git clone <repo>
+git clone [<repo>](https://github.com/pablo-is-a-goblin/task-management-system.git)
 cd task-management-system
 cp .env.sample .env
 docker compose up
