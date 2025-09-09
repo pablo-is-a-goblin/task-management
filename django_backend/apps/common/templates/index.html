@@ -11,7 +11,7 @@
 
         <h1>Welcome to Task Mangement</h1>
         <div class="container">
-        Log in
+        <h3>Log in</h3>
         <form method="post" action="{% url 'rest_framework:login' %}">
             {% csrf_token %}
             <label for="username">Username:</label><br>
@@ -22,7 +22,7 @@
         </form>
     </div>
     <div class="container">
-        Register
+        <h3>Register</h3>
         <form method="post" action="{% url 'auth:register' %}">
             {% csrf_token %}
             <label for="username">Username:</label><br>

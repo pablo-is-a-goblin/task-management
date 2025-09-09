@@ -7,6 +7,7 @@ from django.shortcuts import get_object_or_404
 from apps.tasks.tasks import send_task_notification
 
 # Create your views here.
+
 class  TasksViewSet(viewsets.ModelViewSet):
 	queryset = myModels.Task.objects.all()
 	serializer_class = serializers.TaskSerializer
@@ -22,35 +23,44 @@ class  TasksViewSet(viewsets.ModelViewSet):
 		return self.list(request)
 
 	def retrieve(self, request, pk):
-		self.object = get_object_or_404(myModels.Task, pk=pk)
-		return Response({
+		if request.accepted_renderer.format == 'html':
+			self.object = get_object_or_404(myModels.Task, pk=pk)
+			return Response({
 			'serializer': self.get_serializer(self.object), 
 			'unit': self.object,
 			'unit_url' : self.unit_url,
 			'list_url' : self.list_url,
 			'type': self.type_name,
 			})
+		return super().retrieve(request, pk)
 	
 	def list(self, request):
-		return Response({
+		if request.accepted_renderer.format == 'html':
+			return Response({
 			'queryset' : myModels.Task.objects.all(), 
 			'type': self.type_name,
 			'unit_url' : self.unit_url,
 			'list_url' : self.list_url,
 			'serializer': self.get_serializer()}, template_name='list.html')
-	
+		return super().list(request)
+
 	def update(self, request, pk):
 		super().update(request, pk)
 		return self.retrieve(request, pk)
 	
 	def assign_list(self, request, pk):
 		self.object = get_object_or_404(myModels.Task, pk=pk)
-		return Response({
+		if request.accepted_renderer.format == 'html':
+			return Response({
 			'serializer': serializers.TaskAssignment(self.object), 
 			'unit': self.object,
 			'unit_url' : 'tasks:assign',
+			'list_url' : self.list_url,
 			'type' : "Assignment List"
 			})
+		serializer = serializers.TaskAssignment(instance=self.object)
+		data = serializer.data
+		return Response(data)
 	
 	def update_assign(self, request, pk):
 		self.serializer_class = serializers.TaskAssignment
@@ -74,22 +84,26 @@ class  TagsViewSet(viewsets.ModelViewSet):
 		return self.list(request)
 
 	def retrieve(self, request, pk):
-		self.object = get_object_or_404(myModels.Tag, pk=pk)
-		return Response({
+		if request.accepted_renderer.format == 'html':
+			self.object = get_object_or_404(myModels.Tag, pk=pk)
+			return Response({
 			'serializer': self.get_serializer(self.object), 
 			'unit': self.object,
 			'list_url' : self.list_url,
 			'unit_url' : self.unit_url,
 			'type' : self.type_name
 			})
+		return super().retrieve(request, pk)
 	
 	def list(self, request):
-		return Response({
+		if request.accepted_renderer.format == 'html':
+			return Response({
 			'queryset' : self.queryset, 
 			'type': self.type_name,
 			'unit_url' : self.unit_url,
 			'list_url' : self.list_url,
 			'serializer': self.get_serializer()}, template_name='list.html')
+		return super().list(request)
 	
 	def update(self, request, pk):
 		super().update(request, pk)

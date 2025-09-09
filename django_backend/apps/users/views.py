@@ -22,14 +22,18 @@ class  ProfilesViewSet(viewsets.ModelViewSet):
 		return self.retrieve(request, request.user.id)
 	
 	def retrieve(self, request, pk):
-		self.object = get_object_or_404(myModels.User, pk=pk)
-		return Response({'serializer': self.get_serializer(self.object), 'profile': self.object})
-	
+		if request.accepted_renderer.format == 'html':
+			self.object = get_object_or_404(myModels.User, pk=pk)
+			return Response({'serializer': self.get_serializer(self.object), 'profile': self.object})
+		return super().retrieve(request, pk)
+
 	def list(self, request):
-		return Response({
+		if request.accepted_renderer.format == 'html':
+			return Response({
 			'queryset' : self.queryset, 
 			'type': 'Profiles',
 			'unit_url' : 'users:user'}, template_name='list.html')
+		return super().list(request)
 	
 	def update(self, request, pk):
 		super().update(request, pk)

@@ -36,7 +36,7 @@ class TaskSerializer(serializers.ModelSerializer):
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = myModels.User
-        fields = ['id', 'username']
+        fields = ['id', 'username', 'email']
     
 class RegisterSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True)
@@ -44,6 +44,7 @@ class RegisterSerializer(serializers.ModelSerializer):
         model = myModels.User
         fields = ['id', 'username', 'email', 'password',]
 
+    # Overridding the create method so we can save the password using set_password
     def create(self, validated_data):
         password = validated_data.pop('password')
         user, created = myModels.User.objects.update_or_create(

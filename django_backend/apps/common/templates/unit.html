@@ -16,7 +16,9 @@
 <a href="{% url 'tasks:assign' pk=unit.id %}">See users assigned to this task</a>
 {% endif %}
 
+{% if type != "Assignment List" %}
 <button type="button" class="btn btn-danger" onclick="deleteThis()">Delete</button>
+{% endif %}
 
 <form action="{% url unit_url pk=unit.id %}" method="POST">
     {% csrf_token %}
