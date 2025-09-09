@@ -2,6 +2,7 @@ from celery import shared_task
 from . import models as myModels
 from django.core.mail import send_mail
 import datetime
+from config.settings import EMAIL_HOST_USER
  
 def assignment_mail(task):
     subject = "Assignment to '" + task.title + "'"
@@ -34,7 +35,7 @@ def send_task_notification(task_id, notification_type):
     send_mail(
         subject,
         message,
-        "task.management.psp@gmail.com",
+        EMAIL_HOST_USER,
         email_list,
         fail_silently=False,
 )
@@ -49,7 +50,7 @@ def generate_daily_summary():
         send_mail(
             "Daily summary",
             message,
-            "task.management.psp@gmail.com",
+            EMAIL_HOST_USER,
             [user.email],
             fail_silently=True
         )
